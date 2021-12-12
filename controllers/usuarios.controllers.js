@@ -3,17 +3,22 @@ const { validationResult } = require('express-validator');
 const bcrypt =require('bcryptjs');
 const Usuario = require('../models/usuario.models');
 const { generarJWT } = require('../helpers/jwt');
+const { Promise } = require('mongoose');
 
 
 
 const getUsuarios = async(request,response)=>{
 
+    const desde = Number(request.query.desde) || 0;    
 
-    const usuarios = await Usuario.find({},'nombre email role google');
-
+    const [usuarios,total] = await Promise.all([
+        Usuario.find({},'nombre email role google img').skip(desde).limit(5),
+        Usuario.countDocuments()
+    ]);
     response.json({
         ok:true,       
-        usuarios
+        usuarios,
+        total
     })
 };
 
