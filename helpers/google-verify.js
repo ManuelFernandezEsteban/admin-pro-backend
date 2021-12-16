@@ -18,9 +18,7 @@ const  googleVerify = async(token) => {
   const{name,email,picture} = payload;
   return {name,email,picture};
 
-  const userid = payload['sub'];
-  // If request specified a G Suite domain:
-  // const domain = payload['hd'];
+
 }
 
 module.exports={googleVerify}
